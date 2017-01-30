@@ -63,7 +63,7 @@ export default class Play extends window.Phaser.State {
     this.setEventHandlers();
 
     window.addEventListener("beforeunload", () => {
-      this.socket.emit('disconnect');
+      this.socket.emit('disconnect', { gameIndex: this.me.gameIndex });
     });
   }
 
@@ -125,7 +125,8 @@ export default class Play extends window.Phaser.State {
               x: this.me.player.x,
               y: this.me.player.y,
               direction: this.me.direction,
-              id: this.me.id
+              id: this.me.id,
+              gameIndex: this.me.gameIndex
             }
           );
         } else {
@@ -210,7 +211,7 @@ export default class Play extends window.Phaser.State {
       if (this.score % 10 === 0) {
         this.switchRoles();
       }
-      this.socket.emit('eat', { id: this.me.id, score: this.score });
+      this.socket.emit('eat', { id: this.me.id, score: this.score, gameIndex: this.me.gameIndex });
     }
   }
 
@@ -231,12 +232,12 @@ export default class Play extends window.Phaser.State {
       if (this.score % 10 === 0) {
         this.switchRoles();
       }
-      this.socket.emit('forge', { id: this.me.id, score: this.score });
+      this.socket.emit('forge', { id: this.me.id, score: this.score, gameIndex: this.me.gameIndex });
     }
   }
 
   switchRoles() {
-    this.socket.emit('switch');
+    this.socket.emit('switch', { gameIndex: this.me.gameIndex });
   }
 
   setEventHandlers() {
@@ -269,7 +270,7 @@ export default class Play extends window.Phaser.State {
   }
 
   onNewPlayerAdded(data) {
-
+    this.me.setGameIndex(data.gameIndex);
   }
 
   onNewEnemyPlayer(data) {

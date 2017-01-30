@@ -21,10 +21,10 @@ export default class NewGameMenu extends Menu {
   create() {
     this.menuSetup();
 
-    axios.get('/api/players/true')
+    axios.get('/api/gameWithPlayer')
       .then(res => {
-        console.log('PLAYERS', res.data);
-        if (res.data.length) {
+        console.log('PLAYERS:', res.data);
+        if (res.data) {
           window.app.model.joinedPlayer = res.data[0].type;
           window.app.model.checkedForPlayers = true;
         }

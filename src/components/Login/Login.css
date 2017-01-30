@@ -18,3 +18,8 @@
   max-width: 20%;
   max-height: 20%;
 }
+
+.title-big {
+  font-family: 'Creepster', cursive;
+  font-size: 60px;
+}

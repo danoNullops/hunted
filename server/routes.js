@@ -5,17 +5,41 @@ const bodyParser = require('body-parser');
 const User = require('./models/User.js');
 const Game = require('./models/Game.js');
 
-const isLoggedIn = require('./helpers/isLoggedIn');
-
 require('./config/passportConfig.js')(passport);
 
-module.exports = (playerInstance) => {
+const isLoggedIn = function (req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
 
-  routes.get('/api/players/:isNewPlayer', isLoggedIn, (req, res) => {
-    if (req.params.isNewPlayer === 'true' && playerInstance.players.length >= 2) {
-      playerInstance.clearPlayers();
+  res.redirect('/');
+}
+
+module.exports = (games) => {
+
+  routes.get('/api/games', (req, res) => {
+    res.json(games.gameStore);
+  });
+
+  routes.get('/api/gameWithPlayer', isLoggedIn, (req, res) => {
+    let results = false;
+
+    games.gameStore.forEach(game => {
+      if (game.players.length === 1) {
+        console.log('GAME PLAYERS: ', game.players);
+        results = game.players;
+      }
+    });
+
+    if (results) {
+      res.json(results);
+    } else {
+      res.send(results);
     }
-    res.json(playerInstance.players);
+    // if (req.params.isNewPlayer === 'true' && playerInstance.players.length >= 2) {
+    //   playerInstance.clearPlayers();
+    // }
+    // res.json(playerInstance.players);
   });
 
   routes.get('/api/users', isLoggedIn, (req, res) => { //test route to retrieve all user data
@@ -73,7 +97,7 @@ module.exports = (playerInstance) => {
     var date = new Date();
     var playerObj = req.body;
     var playerID;
-    if(req.user && req.user._id) {
+    if (req.user && req.user._id) {
       playerID = req.user._id;
     }
     var newGame = new Game({
@@ -83,10 +107,10 @@ module.exports = (playerInstance) => {
       player_won: playerObj.won,
       date: date
     }).save((err, game) => {
-      if(err) {
+      if (err) {
         console.log(err);
       }
-      if(game) {
+      if (game) {
         console.log('----- game saved! ---- ', game);
         return game;
       }

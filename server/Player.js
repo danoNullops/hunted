@@ -1,5 +1,5 @@
 class Player {
-  constructor(x, y, dir, type, isHunted, id, score, won) {
+  constructor(x, y, dir, type, isHunted, id, score, won, gameIndex) {
     this.x = x;
     this.y = y;
     this.dir = dir;
@@ -8,6 +8,7 @@ class Player {
     this.id = id;
     this.score = score;
     this.won = won;
+    this.gameIndex = gameIndex;
   }
 }
 

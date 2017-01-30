@@ -3,13 +3,13 @@ var Player = require('./Player.js');
 class Players {
   constructor() {
     this.players = [];
+    this.gameIndex = null;
   }
 
-  updatePlayerScore(data){
-    for(let i = 0; i < this.players.length; i++) {
-      if(this.players[i].id === data.id) {
+  updatePlayerScore(data) {
+    for (let i = 0; i < this.players.length; i++) {
+      if (this.players[i].id === data.id) {
         this.players[i].score = data.score;
-        console.log('........... this players i ...........', this.players[i]);
       }
     }
   }
@@ -19,7 +19,7 @@ class Players {
     let hunter;
 
     this.players.forEach((val) => {
-      if (val.isHunted){
+      if (val.isHunted) {
         prey = val;
       } else {
         hunter = val;
@@ -41,8 +41,8 @@ class Players {
   }
 
   updatePlayers(updatedPlayer) {
-    for(var i = 0; i < this.players.length; i++){
-      if(this.players[i].id === updatedPlayer.id){
+    for (var i = 0; i < this.players.length; i++) {
+      if (this.players[i].id === updatedPlayer.id) {
         this.players[i].x = updatedPlayer.x;
         this.players[i].y = updatedPlayer.y;
         this.players[i].direction = updatedPlayer.direction;
@@ -55,7 +55,8 @@ class Players {
     let player;
 
     player = new Player(
-      data.x, data.y, data.direction, data.type, data.isHunted, data.id, 0, false
+      data.x, data.y, data.direction, data.type,
+      data.isHunted, data.id, 0, false, this.gameIndex
     );
     this.players.push(player);
 
@@ -85,20 +86,24 @@ class Players {
     this.players = temp;
   }
 
-  getWinner(playersArr) {
-    for(let i = 0; i < playersArr.length; i++) {
-      if(playersArr[i].isHunted === false) {
-        return playersArr[i];
+  getWinner() {
+    for (let i = 0; i < this.players.length; i++) {
+      if (this.players[i].isHunted === false) {
+        return this.players[i];
       }
     }
   }
 
-  getLoser(playersArr) {
-    for(let i = 0; i < playersArr.length; i++) {
-      if(playersArr[i].isHunted === true) {
-        return playersArr[i];
+  getLoser() {
+    for (let i = 0; i < this.players.length; i++) {
+      if (this.players[i].isHunted === true) {
+        return this.players[i];
       }
     }
+  }
+
+  setGameIndex(index) {
+    this.gameIndex = index;
   }
 }
 

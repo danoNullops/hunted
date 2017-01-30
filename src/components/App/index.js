@@ -16,7 +16,7 @@ export default (props) => (
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <Link to="/" className="navbar-brand">Hunted</Link>
+          <Link to="/" className="navbar-brand title">HUNTED</Link>
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav navbar-right">

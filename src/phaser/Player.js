@@ -9,6 +9,7 @@ export default class Player {
     this.name = name;
     this.id = id;
     this.score = score;
+    this.gameIndex = null;
     this.alive = true;
 
     this.previousPosition = { x, y, direction };
@@ -82,5 +83,9 @@ export default class Player {
 
   updateId(id) {
     this.id = id;
+  }
+
+  setGameIndex(index) {
+    this.gameIndex = index;
   }
 }
