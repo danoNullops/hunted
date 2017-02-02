@@ -159,21 +159,21 @@ export default class Play extends window.Phaser.State {
             this.silverCollision(this.silverObj[j], j);
           });
 
-          // this.socket.emit(
-          //   'move',
-          //   {
-          //     x: this.me.player.x,
-          //     y: this.me.player.y,
-          //     direction: this.me.direction,
-          //     id: this.me.id
-          //   }
-          // );
+          this.socket.emit(
+            'move',
+            {
+              x: this.me.player.x,
+              y: this.me.player.y,
+              direction: this.me.direction,
+              id: this.me.id
+            }
+          );
         } else {
           this.me.showStopAnimations(this.direction);
         }
 
         // send move event to server
-        this.socket.emit('move', { x: this.me.player.x, y: this.me.player.y, direction: this.me.direction, id: this.me.id } );
+        // this.socket.emit('move', { x: this.me.player.x, y: this.me.player.y, direction: this.me.direction, id: this.me.id } );
       }
     }
   }
